@@ -101,5 +101,5 @@ if click:
         label="Download Generated PDF",
         data=pdf_op,
         file_name=f"Invoice-{comp_name}",
-        mime='text/pdf',
+        mime='application/octet-stream',
     )
