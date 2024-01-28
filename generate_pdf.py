@@ -5,10 +5,10 @@ from fpdf import FPDF
 from datetime import date
 
 st.title("Generate PDF Invoices")
-st.info("""Introducing our new web application designed to streamline your invoicing process! 
-With our user-friendly interface, simply input the required details such as your company name, 
-address, and item descriptions into our intuitive form. Our app will then generate professional 
-PDF invoices with ease, saving you time and effort. Say goodbye to manual invoicing and hello 
+st.info("""Introducing our new web application designed to streamline your invoicing process!
+With our user-friendly interface, simply input the required details such as your company name,
+address, and item descriptions into our intuitive form. Our app will then generate professional
+PDF invoices with ease, saving you time and effort. Say goodbye to manual invoicing and hello
 to efficiency with our convenient web app.""")
 
 st.text_input(label="Company Name", placeholder="Your company name", key="name")
@@ -16,7 +16,7 @@ st.text_area(label="Company Address", placeholder="Your company address", key="a
 st.text_input(label="Customer Name", key="cname")
 st.text_area(label="Customer Address", key="caddr")
 
-file_input = st.file_uploader("""Upload a excel (xlsx) file (File should contain columns as Srno, 
+file_input = st.file_uploader("""Upload a excel (xlsx) file (File should contain columns as Srno,
                               Item Description, Quantity, Unit Price)"""
                               , type="xlsx")
 
@@ -93,13 +93,17 @@ if click:
     if os.path.exists(f"Invoice-{comp_name}"):
         os.remove(f"Invoice-{comp_name}")
 
-    pdf_op = pdf.output(f"Invoice-{comp_name}")
+    pdf.output(f"Invoice-{comp_name}")
+
+    with open(f"Invoice-{comp_name}", "rb") as output_file:
+        PDFbyte = output_file.read()
 
     st.info("Invoice generated successfully. To download please click on below button.")
 
     st.download_button(
         label="Download Generated PDF",
-        data=pdf_op,
-        file_name=f"Invoice-{comp_name}",
+        data=PDFbyte,
+        file_name=f"Invoice-{comp_name}.pdf",
         mime='application/octet-stream',
     )
+
