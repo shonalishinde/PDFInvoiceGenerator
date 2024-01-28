@@ -49,12 +49,12 @@ if click:
 
     pdf.set_text_color(0, 0, 0)
     pdf.set_font(family="Arial", size=14)
-    pdf.cell(w=130, h=7, txt=f"To: { cust_name }", border=1)
-    pdf.cell(w=50, h=7, txt=f"Date: { dt }", border=1, ln=1)
+    pdf.cell(w=130, h=7, txt=f"To: {cust_name}", border=1)
+    pdf.cell(w=50, h=7, txt=f"Date: {dt}", border=1, ln=1)
 
     pdf.set_text_color(0, 0, 0)
     pdf.set_font(family="Arial", size=14)
-    pdf.multi_cell(w=180, h=5, txt=f"Address: { cust_addr }", border=1)
+    pdf.multi_cell(w=180, h=5, txt=f"Address: {cust_addr}", border=1)
 
     pdf.cell(w=200, h=5, txt="", align="C", ln=4)
 
@@ -88,10 +88,18 @@ if click:
         pdf.cell(w=200, h=5, txt="", align="C", ln=2)
 
         pdf.set_font(family="Arial", size=14, style="B")
-        pdf.cell(w=145, h=10, txt=f"The Total Amount to be paid is { sum }")
+        pdf.cell(w=145, h=10, txt=f"The Total Amount to be paid is {sum}")
 
-    if os.path.exists(f"Invoice-{ comp_name }"):
-        os.remove(f"Invoice-{ comp_name }")
+    if os.path.exists(f"Invoice-{comp_name}"):
+        os.remove(f"Invoice-{comp_name}")
 
-    pdf.output(f"Invoice-{ comp_name }")
+    pdf_op = pdf.output(f"Invoice-{comp_name}")
 
+    st.info("Invoice generated successfully. To download please click on below button.")
+
+    st.download_button(
+        label="Download Generated PDF",
+        data=pdf_op,
+        file_name=f"Invoice-{comp_name}",
+        mime='text/pdf',
+    )
